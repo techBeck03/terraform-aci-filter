@@ -1,9 +1,9 @@
 output "dn" {
-  value       = aci_rest.fvTenant.id
-  description = "Distinguished name of `fvTenant` object."
+  value       = aci_rest.vzFilter.id
+  description = "Distinguished name of `vzFilter` object."
 }
 
 output "name" {
-  value       = aci_rest.fvTenant.content.name
-  description = "Tenant name."
+  value       = aci_rest.vzFilter.content.name
+  description = "Filter name."
 }
