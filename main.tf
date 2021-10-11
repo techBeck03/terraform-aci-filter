@@ -10,7 +10,7 @@ resource "aci_rest" "vzFilter" {
 
 resource "aci_rest" "vzEntry" {
   for_each   = { for entry in var.entries : entry.name => entry }
-  dn         = "${aci_rest.vzFilter.id}/e-${each.value.name}"
+  dn         = "${aci_rest.vzFilter.dn}/e-${each.value.name}"
   class_name = "vzEntry"
   content = {
     name      = each.value.name
