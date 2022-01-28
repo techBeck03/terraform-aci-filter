@@ -14,7 +14,7 @@ Note that this example will create resources. Resources can be destroyed with `t
 ```hcl
 module "aci_filter" {
   source  = "netascode/filter/aci"
-  version = ">= 0.0.1"
+  version = ">= 0.1.0"
 
   tenant      = "ABC"
   name        = "FILTER1"
@@ -33,6 +33,5 @@ module "aci_filter" {
     stateful              = true
   }]
 }
-
 ```
 <!-- END_TF_DOCS -->

@@ -5,13 +5,13 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
 
-resource "aci_rest" "fvTenant" {
+resource "aci_rest_managed" "fvTenant" {
   dn         = "uni/tn-TF"
   class_name = "fvTenant"
 }
@@ -19,7 +19,7 @@ resource "aci_rest" "fvTenant" {
 module "main" {
   source = "../.."
 
-  tenant      = aci_rest.fvTenant.content.name
+  tenant      = aci_rest_managed.fvTenant.content.name
   name        = "FILTER1"
   alias       = "FILTER1-ALIAS"
   description = "My Description"
@@ -37,7 +37,7 @@ module "main" {
   }]
 }
 
-data "aci_rest" "vzFilter" {
+data "aci_rest_managed" "vzFilter" {
   dn = module.main.dn
 
   depends_on = [module.main]
@@ -48,25 +48,25 @@ resource "test_assertions" "vzFilter" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.vzFilter.content.name
+    got         = data.aci_rest_managed.vzFilter.content.name
     want        = module.main.name
   }
 
   equal "nameAlias" {
     description = "nameAlias"
-    got         = data.aci_rest.vzFilter.content.nameAlias
+    got         = data.aci_rest_managed.vzFilter.content.nameAlias
     want        = "FILTER1-ALIAS"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.vzFilter.content.descr
+    got         = data.aci_rest_managed.vzFilter.content.descr
     want        = "My Description"
   }
 }
 
-data "aci_rest" "vzEntry" {
-  dn = "${data.aci_rest.vzFilter.id}/e-ENTRY1"
+data "aci_rest_managed" "vzEntry" {
+  dn = "${data.aci_rest_managed.vzFilter.id}/e-ENTRY1"
 
   depends_on = [module.main]
 }
@@ -76,61 +76,61 @@ resource "test_assertions" "vzEntry" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.vzEntry.content.name
+    got         = data.aci_rest_managed.vzEntry.content.name
     want        = "ENTRY1"
   }
 
   equal "nameAlias" {
     description = "nameAlias"
-    got         = data.aci_rest.vzEntry.content.nameAlias
+    got         = data.aci_rest_managed.vzEntry.content.nameAlias
     want        = "ENTRY1-ALIAS"
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.vzEntry.content.descr
+    got         = data.aci_rest_managed.vzEntry.content.descr
     want        = "Entry Description"
   }
 
   equal "etherT" {
     description = "etherT"
-    got         = data.aci_rest.vzEntry.content.etherT
+    got         = data.aci_rest_managed.vzEntry.content.etherT
     want        = "ip"
   }
 
   equal "prot" {
     description = "prot"
-    got         = data.aci_rest.vzEntry.content.prot
+    got         = data.aci_rest_managed.vzEntry.content.prot
     want        = "tcp"
   }
 
   equal "sFromPort" {
     description = "sFromPort"
-    got         = data.aci_rest.vzEntry.content.sFromPort
+    got         = data.aci_rest_managed.vzEntry.content.sFromPort
     want        = "123"
   }
 
   equal "sToPort" {
     description = "sToPort"
-    got         = data.aci_rest.vzEntry.content.sToPort
+    got         = data.aci_rest_managed.vzEntry.content.sToPort
     want        = "124"
   }
 
   equal "dFromPort" {
     description = "dFromPort"
-    got         = data.aci_rest.vzEntry.content.dFromPort
+    got         = data.aci_rest_managed.vzEntry.content.dFromPort
     want        = "234"
   }
 
   equal "dToPort" {
     description = "dToPort"
-    got         = data.aci_rest.vzEntry.content.dToPort
+    got         = data.aci_rest_managed.vzEntry.content.dToPort
     want        = "235"
   }
 
   equal "stateful" {
     description = "stateful"
-    got         = data.aci_rest.vzEntry.content.stateful
+    got         = data.aci_rest_managed.vzEntry.content.stateful
     want        = "yes"
   }
 }

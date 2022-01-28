@@ -1,6 +1,6 @@
 module "aci_filter" {
   source  = "netascode/filter/aci"
-  version = ">= 0.0.1"
+  version = ">= 0.1.0"
 
   tenant      = "ABC"
   name        = "FILTER1"

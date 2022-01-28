@@ -1,4 +1,4 @@
-resource "aci_rest" "vzFilter" {
+resource "aci_rest_managed" "vzFilter" {
   dn         = "uni/tn-${var.tenant}/flt-${var.name}"
   class_name = "vzFilter"
   content = {
@@ -8,9 +8,9 @@ resource "aci_rest" "vzFilter" {
   }
 }
 
-resource "aci_rest" "vzEntry" {
+resource "aci_rest_managed" "vzEntry" {
   for_each   = { for entry in var.entries : entry.name => entry }
-  dn         = "${aci_rest.vzFilter.dn}/e-${each.value.name}"
+  dn         = "${aci_rest_managed.vzFilter.dn}/e-${each.value.name}"
   class_name = "vzEntry"
   content = {
     name      = each.value.name
